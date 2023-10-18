@@ -24,5 +24,3 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-root}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
-    ports:
-      - ${POSTGRES_PORT:-6666}:5432
