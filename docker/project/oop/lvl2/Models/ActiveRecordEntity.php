@@ -140,13 +140,12 @@ abstract class ActiveRecordEntity
     {
         $db = Db::getInstance();
         $tableName = static::getTableName();
-        $sql = 'SELECT * FROM ' . $tableName . ' WHERE ' . $columnName . ' = $1 LIMIT 1';
-
+        $sql = 'SELECT * FROM ' . $tableName . ' WHERE ' . $columnName . ' = :field LIMIT 1';
         $result = $db->query($sql, [$value], static::class);
-
         if ($result === []) {
             return null;
         }
+
 
         return $result[0];
     }
