@@ -4,16 +4,17 @@ services:
   php:
     build:
       dockerfile: images/Dockerfile
-
+    restart: "always"
     volumes:
-      - ./project:/var/www/html
+      - ../project/oop/lvl2:/var/www/html
     depends_on:
       - postgres
 
   nginx:
     image: nginx:stable-alpine
+    restart: "always"
     volumes:
-      - ./project:/var/www/html
+      - ../project/oop/lvl2:/var/www/html
       - ./nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - ${NGINX_PORT:-80}:80
@@ -25,7 +26,18 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-root}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_DB: ${POSTGRES_DB:-postgres}
+    ports:
+      - ${POSTGRES_PORTS:-5432:5432}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   adminer:
     image: adminer:4.8.1-standalone
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - ${ADMINER_PORTS:-8081:8080}
     restart: always
+
+volumes:
+  postgres_data:

@@ -1,0 +1,3 @@
+docker/dev/.env
+prod/.env
+.idea
