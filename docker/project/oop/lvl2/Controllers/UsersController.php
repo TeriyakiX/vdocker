@@ -1,51 +1,35 @@
 <?php
 
+
 namespace Controllers;
 
-use InvalidArgumentException;
+use Exception;
+use Exceptions\InvalidArgumentException;
 use Models\Users\User;
-use Models\Users\UserActivationService;
 use Models\Users\UsersAuthService;
-use Services\EmailSender;
-use View\View;
 
-class UsersController
+class UsersController extends AbstractController
 {
-    /** @var View */
-    private $view;
-
-    public function __construct()
-    {
-        $this->view = new View(__DIR__ . '/../templates');
-    }
-
-    public function signUp()
+    public function signUp(): void
     {
         if (!empty($_POST)) {
+            $user = null;
             try {
                 $user = User::signUp($_POST);
             } catch (InvalidArgumentException $e) {
                 $this->view->renderHtml('users/signUp.php', ['error' => $e->getMessage()]);
-                return;
+            } catch (Exception $e) {
             }
 
             if ($user instanceof User) {
-                $code = UserActivationService::createActivationCode($user);
-
-                EmailSender::send($user, 'Активация', 'userActivation.php', [
-                    'userId' => $user->getId(),
-                    'code' => $code
-                ]);
-
                 $this->view->renderHtml('users/signUpSuccessful.php');
-                return;
             }
+        } else {
+            $this->view->renderHtml('users/signUp.php');
         }
-
-        $this->view->renderHtml('users/signUp.php');
     }
 
-    public function login()
+    public function login(): void
     {
         if (!empty($_POST)) {
             try {
@@ -58,7 +42,12 @@ class UsersController
                 return;
             }
         }
-
         $this->view->renderHtml('users/login.php');
+    }
+
+    public function logout(): void
+    {
+        setcookie('token', '0', 0, '/', '', false, true);
+        header('Location: /');
     }
 }
