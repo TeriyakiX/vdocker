@@ -30,4 +30,29 @@ class Settings
     {
         return '/' . $this->path['views'] ?? '';
     }
+    public function getDbSetting(): array
+    {
+        return $this->db ?? [];
+    }
+    public function getRoutePath(): string
+    {
+        return '/' . $this->path['routes'] ?? '';
+    }
+
+    public function getAuthClassName(): string
+    {
+        return $this->app['auth'] ?? '';
+    }
+
+    public function getIdentityClassName(): string
+    {
+        return $this->app['identity'] ?? '';
+    }
+
+    public function removeAppMiddleware(string $key): void
+    {
+        unset($this->_settings['app']['routeAppMiddleware'][$key]);
+    }
+
+
 }

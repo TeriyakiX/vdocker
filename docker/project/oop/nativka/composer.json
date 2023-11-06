@@ -1,0 +1,29 @@
+{
+    "name": "nativka/dany",
+    "description": "native php",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "dany"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.0",
+        "illuminate/database": "10.x-dev",
+        "illuminate/events": "10.x-dev",
+        "nikic/fast-route": "^2.0@dev",
+        "dany/collect5lab": "dev-main"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/Src/",
+            "": "app/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "10.5.x-dev"
+    }
+}
