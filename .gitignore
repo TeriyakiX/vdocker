@@ -1,3 +1,6 @@
 docker/dev/.env
 docker/prod/.env
 .idea
+docker/project/oop/nativka/vendor/
+docker/project/oop/nativka/composer.lock
+docker/project/oop/nativka/composer.phar
