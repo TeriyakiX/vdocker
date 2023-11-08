@@ -2,6 +2,7 @@
 
 namespace Models;
 
+use PDO;
 use Services\Db;
 
 abstract class ActiveRecordEntity
@@ -134,4 +135,19 @@ abstract class ActiveRecordEntity
     }
 
     abstract protected static function getTableName() : string;
+
+    public static function findOneByColumn(string $columnName, $value): ?self
+    {
+        $db = Db::getInstance();
+        $result = $db->query(
+            'select * from ' . static::getTableName() . ' where ' . $columnName . ' = :value limit 1;',
+            [':value' => $value],
+            static::class
+        );
+        if ($result === []) {
+            return null;
+        }
+        return $result[0];
+    }
+
 }
